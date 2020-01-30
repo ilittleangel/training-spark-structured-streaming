@@ -1,17 +1,15 @@
 package bigdata.streaming.job
 
+import bigdata.streaming.utils.Common._
+import bigdata.streaming.utils.Files._
 import org.apache.spark.sql.SparkSession
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Matchers}
-import bigdata.streaming.utils.Files._
-import org.apache.log4j.{Level, Logger}
+
 import scala.concurrent.ExecutionContext.Implicits.global
-
-
 import scala.util.{Failure, Success}
 
-class StreamingJsonFilesJobTest extends FlatSpec with Matchers with BeforeAndAfterAll {
 
-  Logger.getLogger("org.apache").setLevel(Level.OFF)
+class StreamingJsonFilesJobTest extends FlatSpec with Matchers with BeforeAndAfterAll {
 
   private val inputDir = "/tmp/devsh-streaming"
   implicit val spark: SparkSession = SparkSession.builder().master("local[*]").getOrCreate()
@@ -23,9 +21,9 @@ class StreamingJsonFilesJobTest extends FlatSpec with Matchers with BeforeAndAft
 
   "StreamingJsonFilesJob.runJob" should "process Json files" in {
 
-    withConcurrency { () => copyFiles(source = "/activations_stream", dest = inputDir, sleepTime = 10000) }
+    withConcurrency { () => copyFiles(source = "/activations_stream", dest = inputDir, sleepTime = 2000) }
       .onComplete {
-        case Success(_) => println("Copied!")
+        case Success(_) => println("Done!")
         case Failure(e) => e.printStackTrace()
       }
 

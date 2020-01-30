@@ -4,8 +4,6 @@ import java.io.File
 
 import org.apache.commons.io.FileUtils
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.reflect.io.Directory
 
 object Files {
@@ -35,12 +33,5 @@ object Files {
       destFile.getAbsolutePath
     }
   }
-
-  def withConcurrency[T](block: () => T): Future[T] = {
-    Future {
-      block()
-    }
-  }
-
 
 }

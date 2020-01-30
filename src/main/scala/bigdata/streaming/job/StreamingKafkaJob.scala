@@ -14,7 +14,8 @@ object StreamingKafkaJob {
     val tx_detail_df = spark.readStream.format("kafka")
       .option("kafka.bootstrap.servers", kafkaBootstrapServers)
       .option("subscribe", inputTopic)
-      .option("startingOffsets", "latest")
+      .option("startingOffsets", "earliest")
+      .option("failOnDataLoss", "false")
       .load()
 
     tx_detail_df.printSchema()
@@ -72,7 +73,7 @@ object StreamingKafkaJob {
       .option("checkpointLocation", "/tmp/checkpoint1") // borrar en cada ejecucion
       .start()
 
-    trans_detail_ws_1
+    trans_detail_ws
   }
 
 }
